@@ -19,3 +19,10 @@ async def add(num1: int, num2: int):
     return {
         'results': num1 + num2
     }
+
+
+@app.get("/name/{your_name}")
+async def name(your_name: str):
+    return {
+        'message': f"hello {your_name}"
+    }
