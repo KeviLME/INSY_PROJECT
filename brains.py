@@ -29,15 +29,19 @@ def send_verification_email(email: str, code: str):
 
 
 def create_user_verification(email: str):
-    code = secrets.token_urlsafe(16)
+    try:
+        code = secrets.token_urlsafe(16)
 
-    data = {
-        "email": email,
-        "code": code,
-        "is_verified": False
-        }
+        data = {
+            "email": email,
+            "code": code,
+            "is_verified": False
+            }
 
-    response = supabase.table("Users").insert(data).execute()
+        response = supabase.table("Users").insert(data).execute()
+        return code
+    
+    except:
+        return {"Message": "Error creating user"}
 
-    return code
 
