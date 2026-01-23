@@ -22,8 +22,9 @@ supabase: Client = create_client(url, key) # this is the cursor to interact with
 
 @app.get("/")
 def root():
-    response = supabase.table('Test').select("*").execute()
-    return response.data
+    return {
+        "Message": "API WORKING",
+    }
 
 @app.get("/adding/{num1}/{num2}")
 async def add(num1: int, num2: int):
