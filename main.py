@@ -67,7 +67,6 @@ async def verify_email(code: str):
     if len(response.data) == 1:
         try:
                 
-            user = response.data[0]
             supabase.table("Users").update({"is_verify": True}).eq("code", code).execute()
             return {"Message": "Email verified successfully"}
         
