@@ -66,6 +66,11 @@ async def check_email(email: str):
 async def verify_email(code: str):
     response = supabase.table("Users").select("*").eq("code", code).execute()
     if len(response.data) == 1:
+        res = response.data[0]
+
+        if res["is_verify"] == True:
+            return {"Message": "Email already verified"}
+
         try:
                 
             supabase.table("Users").update({"is_verify": True}).eq("code", code).execute()
