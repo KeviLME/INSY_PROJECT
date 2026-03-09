@@ -80,7 +80,7 @@ async def check_email(email: str):
 # check if email is verifeid 
 # check if password is correct (we will add password later)
 
-@app.get("user_login/{email}/{password}")
+@app.get("/user_login/{email}/{password}")
 async def user_login(email:str, password: str):
     response = supabase.table("Users").select("*").eq("email",email.lower()).execute()
 
