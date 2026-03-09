@@ -105,6 +105,34 @@ async def user_login(email:str, password: str):
 
 
 #-------------------- LOGIN PROCCES --------------------
+
+#-------------------- FETCH USER FOR GLOBAL STATE --------------------
+
+@app.get("/fetch_user/{email}")
+async def fetch_user(email: str):
+    response = supabase.table("Users").select("*").eq("email", email).execute()
+    data = response.data
+    try:
+        user = data[0]
+        return {
+            "Message": "User data fetched successfully",
+            "email": user["email"],
+            "admin": user["admin"],
+            "listings": user["listings"],
+            }
+    
+    except Exception as e:
+        return {"Message": "Error fetching user data for global state"}
+
+
+#-------------------- FETCH USER FOR GLOBAL STATE --------------------
+
+
+
+
+
+
+
 @app.get("/verify_email/{code}")
 async def verify_email(code: str):
     response = supabase.table("Users").select("*").eq("code", code).execute()
