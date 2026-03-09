@@ -62,6 +62,18 @@ async def check_email(email: str):
         else:
             return {"Message": "User not verified yet"}
 
+
+
+@app.get("/search_user/{email}")
+async def search_user(email: str):
+    response = supabase.table('Users').select('*').eq('email', email).execute()
+
+    if len(response.data) == 0:
+        return -1 #user not found
+    else:
+        return 0 #user found
+
+
 @app.get("/verify_email/{code}")
 async def verify_email(code: str):
     response = supabase.table("Users").select("*").eq("code", code).execute()
