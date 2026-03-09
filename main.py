@@ -69,9 +69,9 @@ async def search_user(email: str):
     response = supabase.table('Users').select('*').eq('email', email).execute()
 
     if len(response.data) == 0:
-        return -1 #user not found
+        return {"Message": "User not found"}
     else:
-        return 0 #user found
+        return {"Message": "User found"}
 
 
 @app.get("/verify_email/{code}")
