@@ -83,15 +83,19 @@ async def check_email(email: str):
 @app.get("/user_login/{email}/{password}")
 async def user_login(email:str, password: str):
     response = supabase.table("Users").select("*").eq("email",email.lower()).execute()
+    data = response.data
 
     try:
 
-        if len(response) == 0: #chec if user exits 
+        if len(data) == 0: #chec if user exits 
             return {"Message": "User not found"}
         
-        if response[2] == False: #check if email is verified
+        user = data[0]
+
+        if user["is_verify"] == False: #check if email is verified
             return {"Message": "Email not verified"}
-        if response[4] != password: #check if password is correct
+        
+        if user["password"] != password: #check if password is correct
             return {"Message": "Incorrect password"}
     
     except Exception as e:
