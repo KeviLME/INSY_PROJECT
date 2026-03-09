@@ -11,8 +11,18 @@ load_dotenv() # take environment variables from .env.file
 
 import brains
 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173/"],  # Allow all origins (you can specify specific origins if needed)
+    allow_methods=["GET", "POST"],  # Allow all HTTP methods
+    allow_headers=["*"],
+)  
+
 
 url: str = os.environ.get('SUPABASE_URL')
 key: str = os.environ.get('SUPABASE_KEY')
