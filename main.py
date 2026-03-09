@@ -74,16 +74,29 @@ async def check_email(email: str):
 
 
 
-@app.get("/search_user/{email}")
-async def search_user(email: str):
-    response = supabase.table('Users').select('*').eq('email', email).execute()
+#-------------------- LOGIN PROCCES --------------------
+#one login api that did three things
+#check if user exits
+# check if email is verifeid 
+# check if password is correct (we will add password later)
 
-    if len(response.data) == 0:
+@app.get("user_login/{email}/{password}")
+async def user_login(email:str, password: str):
+    response = supabase.table("Users").select("*").eq("email",email.lower()).execute()
+
+    if len(response) == 0: #chec if user exits 
         return {"Message": "User not found"}
-    else:
-        return {"Message": "User found"}
+    
+    if response[2] == False: #check if email is verified
+        return {"Message": "Email not verified"}
+    if response[4] != password: #check if password is correct
+        return {"Message": "Incorrect password"}
 
 
+    return {"Message": "Login successful"}
+
+
+#-------------------- LOGIN PROCCES --------------------
 @app.get("/verify_email/{code}")
 async def verify_email(code: str):
     response = supabase.table("Users").select("*").eq("code", code).execute()
