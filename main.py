@@ -51,14 +51,14 @@ async def name(your_name: str):
         'message': f"hello {your_name}"
     }
 
-@app.get("/login/{email}/{password}")
-async def check_email(email: str, password: str):
+@app.get("/login/{email}/{password}/{username}")
+async def check_email(email: str, password: str, username: str):
     response = supabase.table('Users').select("*").eq('email', email).execute();
 
     if len(response.data) == 0:
          #update the user with password
         try:
-            code = brains.create_user_verification(email, password) #create users in database and give us user auth code
+            code = brains.create_user_verification(email, password, username) #create users in database and give us user auth code
             email_res = brains.send_verification_email(email, code)
 
 

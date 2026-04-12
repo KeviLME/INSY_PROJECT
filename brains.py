@@ -65,7 +65,7 @@ def send_verification_email(email: str, code: str):
     return email
 
 
-def create_user_verification(email: str, password: str):
+def create_user_verification(email: str, password: str, username: str):
     try:
         code = secrets.token_urlsafe(16) #returns a random url safe string
 
@@ -73,7 +73,8 @@ def create_user_verification(email: str, password: str):
             "email": email.lower(),
             "code": code,
             "is_verify": True,
-            "password": password
+            "password": password, 
+            "username": username,
             }
 
         response = supabase.table("Users").insert(data).execute()
