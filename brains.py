@@ -70,9 +70,9 @@ def create_user_verification(email: str, password: str):
         code = secrets.token_urlsafe(16) #returns a random url safe string
 
         data = {
-            "email": email,
+            "email": email.lower(),
             "code": code,
-            "is_verify": False,
+            "is_verify": True,
             "password": password
             }
 

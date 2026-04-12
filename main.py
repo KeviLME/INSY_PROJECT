@@ -126,6 +126,7 @@ async def fetch_user(email: str):
             "email": user["email"],
             "admin": user["admin"],
             "listings": user["listings"],
+            "id": user["id"]
             }
     
     except Exception as e:
