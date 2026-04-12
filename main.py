@@ -51,21 +51,26 @@ async def name(your_name: str):
         'message': f"hello {your_name}"
     }
 
-@app.get("/login/{email}")
-async def check_email(email: str):
-    response = supabase.table('Users').select("*").eq('email', email).execute()
+@app.get("/login/{email}/{password}")
+async def check_email(email: str, password: str):
+    response = supabase.table('Users').select("*").eq('email', email).execute();
 
     if len(response.data) == 0:
+         #update the user with password
         try:
-            code = brains.create_user_verification(email) #create users in database and give us user auth code
+            code = brains.create_user_verification(email, password) #create users in database and give us user auth code
             email_res = brains.send_verification_email(email, code)
+
+
+            
+
 
             return {"Message": "Verification email sent"}
 
 
 
-        except:
-            return {"Message": "Error sending verification email"}
+        except (Exception) as e:
+            return {"Message": "Error sending verification email" + str(e)}
     
     else:
         dic = response.data[0]
@@ -168,6 +173,24 @@ async def post_listing(user_id: int, title: str, category:str, price: str, descr
 
 #-------------------- Post A Listings --------------------
 
+
+
+#-------------------- Create Users --------------------
+
+@app.get("/post_listing/{user_id}/{title}/{category}/{price}/{description}")
+async def post_listing(user_id: int, title: str, category:str, price: str, description: str):
+    try:
+        supabase.table("Listings").insert({"price": price, "title": title, "category": category, "user": user_id, "desc": description, "img": None}).execute()
+
+        return{
+            "Message": "Listing posted successfully",
+        }
+
+    except Exception as e:
+        return {"Message": "Error posting listing" + str(e)}
+
+
+#-------------------- Create Users --------------------
 
 
 
