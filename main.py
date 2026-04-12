@@ -138,10 +138,16 @@ async def fetch_user(email: str):
 
 #-------------------- FETCH global Listings --------------------
 
-@app.get("/fetch_listings")
-async def fetch_listings():
+@app.get("/fetch_listings/{user_id}")
+async def fetch_listings(user_id: int):
+
+    if user_id == 0:
+        response = supabase.table("Listings").select("*").execute()
+
+    else:
+        response = supabase.table("Listings").select("*").eq("user", user_id).execute()
+
     
-    response = supabase.table("Listings").select("*").execute()
     data = response.data
 
     try:
