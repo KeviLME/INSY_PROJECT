@@ -161,6 +161,28 @@ async def fetch_listings(user_id: int):
 
 #-------------------- FETCH global Listings--------------------
 
+#-------------------- FETCH one Listings --------------------
+
+@app.get("/fetch_one_listings/{listing_id}")
+async def fetch_listings(listing_id: int):
+
+
+    response = supabase.table("Listings").select("*").eq("id", listing_id).execute()
+
+    
+    data = response.data
+
+    try:
+        return {
+            "Listings": data
+        }
+
+    except Exception as e:
+        return {"Message": "Error fetching one listings" + str(e)}
+
+
+#-------------------- FETCH one Listings--------------------
+
 
 
 #-------------------- Post A Listings --------------------
