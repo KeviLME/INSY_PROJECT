@@ -190,7 +190,7 @@ async def fetch_listings(listing_id: int):
 @app.get("/post_listing/{user_id}/{title}/{category}/{price}/{description}")
 async def post_listing(user_id: int, title: str, category:str, price: str, description: str):
     try:
-        supabase.table("Listings").insert({"price": price, "title": title, "category": category, "user": user_id, "desc": description, "img": None}).execute()
+        supabase.table("Listings").insert({"price": price, "title": title, "category": category, "user": user_id, "desc": description, "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShyIEH174BuP8HA8owI9rt6vMpr7ugakpYOA&s"}).execute()
 
         return{
             "Message": "Listing posted successfully",
