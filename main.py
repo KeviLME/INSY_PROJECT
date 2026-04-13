@@ -135,6 +135,20 @@ async def fetch_user(email: str):
 
 #-------------------- FETCH USER FOR GLOBAL STATE --------------------
 
+@app.get("/fetch_user_again/{id}")
+async def fetch_user(id: int):
+    response = supabase.table("Users").select("*").eq("id", id).execute()
+    data = response.data
+    try:
+        user = data[0]
+        return {
+            "Message": "User data fetched successfully",
+            "email": user["email"]
+            }
+    
+    except Exception as e:
+        return {"Message": "Error fetching user data for global state"}
+
 
 #-------------------- FETCH global Listings --------------------
 
